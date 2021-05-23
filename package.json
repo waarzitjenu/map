@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "yarn run subst && vue-cli-service serve",
+    "subst": "envsubst < public/config.template.json > public/config.json",
     "build": "vue-cli-service build --no-clean",
     "lint": "vue-cli-service lint"
   },
