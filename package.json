@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "yarn run subst && vue-cli-service serve",
+    "dev": "yarn serve",
+    "serve": "yarn subst && vue-cli-service serve",
     "subst": "envsubst < public/config.template.json > public/config.json",
-    "build": "vue-cli-service build --no-clean",
+    "build": "yarn lint && yarn subst && vue-cli-service build --no-clean",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
