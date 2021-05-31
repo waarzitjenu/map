@@ -25,11 +25,11 @@
 </template>
 
 <script lang="ts">
-  // Imports
-  import { Vue } from "vue-class-component";
+// Imports
+import { Vue } from "vue-class-component";
 
-  // Component
-  export default class SettingsModalWindow extends Vue {}
+// Component
+export default class SettingsModalWindow extends Vue {}
 </script>
 
 <style lang="stylus">

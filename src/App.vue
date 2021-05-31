@@ -3,12 +3,12 @@
 </template>
 
 <style lang="stylus">
-  body
-    background #000
+body
+  background #000
 
-  #app
-    height 100vh
-    font-family Avenir, Helvetica, Arial, sans-serif
-    -webkit-font-smoothing antialiased
-    -moz-osx-font-smoothing grayscale
+#app
+  height 100vh
+  font-family Avenir, Helvetica, Arial, sans-serif
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
 </style>
