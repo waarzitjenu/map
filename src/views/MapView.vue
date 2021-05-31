@@ -24,7 +24,7 @@ import { ConfigWindow } from "@/types/ConfigWindow";
 declare let window: ConfigWindow;
 
 // Interfaces
-export interface DatabaseEntry extends Record<string, any> {
+export interface DatabaseEntry {
   ID: number;
   Timestamp: number;
   Data: LocationData;

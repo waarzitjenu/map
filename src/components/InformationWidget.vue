@@ -22,55 +22,58 @@ import { Prop } from "vue-property-decorator";
 export default class InformationWidget extends Vue {
   toKmh = (speed: number) => (speed * 3.6).toPrecision(4).replace(".", ",");
   toDMS = (input: { value: number; latitude: boolean }) => {
-    interface DMS extends Record<string, any> {
+    interface DMS extends Record<string, number | string> {
       degrees: number;
       minutes: number;
       seconds: number;
+    }
+
+    interface DMSB extends DMS {
       bearing: "N" | "S" | "E" | "W";
     }
 
-    const dms: DMS = {
+    const dmsb: DMSB = {
       degrees: 0,
       minutes: 0,
       seconds: 0,
       bearing: "N",
     };
 
-    dms.degrees = Math.floor(input.value);
-    dms.minutes = Math.floor((input.value - dms.degrees) * 60);
-    dms.seconds = Math.round(
-      ((input.value - dms.degrees) * 60 - dms.minutes) * 60
+    dmsb.degrees = Math.floor(input.value);
+    dmsb.minutes = Math.floor((input.value - dmsb.degrees) * 60);
+    dmsb.seconds = Math.round(
+      ((input.value - dmsb.degrees) * 60 - dmsb.minutes) * 60
     );
 
     // After rounding, the seconds might become 60. These two
     // if-tests are not necessary if no rounding is done.
-    if (dms.seconds == 60) {
-      dms.minutes++;
-      dms.seconds = 0;
+    if (dmsb.seconds == 60) {
+      dmsb.minutes++;
+      dmsb.seconds = 0;
     }
-    if (dms.minutes == 60) {
-      dms.degrees++;
-      dms.minutes = 0;
+    if (dmsb.minutes == 60) {
+      dmsb.degrees++;
+      dmsb.minutes = 0;
     }
 
     // Set the bearing (N, S or E, W)
     if (input.latitude == true) {
       if (input.value >= 0) {
-        dms.bearing = "N";
+        dmsb.bearing = "N";
       } else {
-        dms.bearing = "S";
+        dmsb.bearing = "S";
       }
     } else {
       if (input.value >= 0) {
-        dms.bearing = "E";
+        dmsb.bearing = "E";
       } else {
-        dms.bearing = "W";
+        dmsb.bearing = "W";
       }
     }
     // Finally, make degrees always positive (so you won't get -60 degees south, for example)
-    dms.degrees = Math.abs(dms.degrees);
+    dmsb.degrees = Math.abs(dmsb.degrees);
 
-    return `${dms.degrees}\u00B0 ${dms.minutes}' ${dms.seconds}" ${dms.bearing}`;
+    return `${dmsb.degrees}\u00B0 ${dmsb.minutes}' ${dmsb.seconds}" ${dmsb.bearing}`;
   };
 
   // Props
