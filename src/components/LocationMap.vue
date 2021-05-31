@@ -13,7 +13,7 @@
 <script lang="ts">
 // Imports
 import { Vue, Options } from "vue-class-component";
-import { Prop, Watch } from "vue-property-decorator";
+import { Prop } from "vue-property-decorator";
 import MapBoxComponent from "@/components/Mapbox.vue";
 import { ConfigWindow } from "@/types/ConfigWindow";
 
