@@ -1,22 +1,25 @@
-FROM node:14
-
+# Working Node.js 14 base image
+FROM node:14 AS nodebase
+RUN mkdir -p /home/node/.npm /app/ && \
+    chown -R node:node /home/node/ /app/
 USER node
-RUN mkdir -p /home/node/.npm-global \
-             /home/node/waarzitjenu/map \
-             /home/node/waarzitjenu/map/dist
-             
-ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
+ENV NPM_CONFIG_PREFIX=/home/node/.npm
 ENV PATH=$NPM_CONFIG_PREFIX/bin:$PATH
 RUN npm -g config set user "$USER" && \
     npm i -g yarn && \
     printf "Node version %s, npm version %s, yarn version %s\n\n" "$(node -v)" "$(npm -v)" "$(yarn -v)"
 
-WORKDIR /home/node/waarzitjenu/map
-COPY ["package.json", "yarn.lock", "babel.config.js", "tsconfig.json", "vue.config.js", ".browserslistrc", ".env", ".env.local", ".eslintrc.js", "./"]
-COPY ["public/", "./public/"]
-COPY ["src/", "./src/"]
-
+# Builder
+FROM nodebase AS builder
+WORKDIR /app/
+RUN mkdir -p map/ map/dist/
+WORKDIR /app/map
+COPY ./ ./
 RUN yarn install
+RUN yarn build
 
-ENTRYPOINT ["yarn", "run"]
-CMD ["build"]
+# Nginx
+FROM nginx:1.20-alpine
+COPY --from=builder /app/map/dist /usr/share/nginx/html
+COPY ./docker-entrypoint.sh /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
