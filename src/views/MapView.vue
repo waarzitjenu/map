@@ -73,7 +73,9 @@ export default class MapView extends Vue {
   };
 
   get getApiEndpoint(): string {
-    return window.$config.LOCATION_API_ENDPOINT || "http://localhost:8080";
+    return (
+      window.$config.LOCATION_API_ENDPOINT || "http://localhost:8080/retrieve"
+    );
   }
 
   // Lifecycle hooks
