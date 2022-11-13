@@ -19,7 +19,7 @@ RUN yarn install
 RUN yarn build
 
 # Nginx
-FROM nginx:1.20-alpine
+FROM nginx:mainline-alpine
 COPY --from=builder /app/map/dist /usr/share/nginx/html
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
